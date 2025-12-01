@@ -1,11 +1,15 @@
-/* App specific styles if needed, mostly using global styles from index.css */
+/* App specific styles */
+
+/* Navbar */
 .navbar {
-  background-color: var(--white);
-  box-shadow: var(--shadow-sm);
+  background-color: var(--surface-color);
+  border-bottom: 1px solid var(--border-color);
   padding: 1rem 0;
   position: sticky;
   top: 0;
   z-index: 100;
+  backdrop-filter: blur(8px);
+  background-color: rgba(255, 255, 255, 0.95);
 }
 
 .nav-content {
@@ -19,23 +23,27 @@
   align-items: center;
   gap: 1rem;
   font-weight: 700;
-  font-size: 1.5rem;
-  color: var(--primary-color);
+  font-size: 1.25rem;
+  color: var(--secondary-color);
+  letter-spacing: -0.025em;
 }
 
 .logo-img {
   height: 40px;
   width: auto;
+  object-fit: contain;
 }
 
 .nav-links {
   display: flex;
   gap: 2rem;
+  align-items: center;
 }
 
 .nav-link {
   font-weight: 500;
-  color: var(--text-color);
+  color: var(--text-secondary);
+  font-size: 0.95rem;
   transition: color 0.2s;
 }
 
@@ -43,43 +51,134 @@
   color: var(--primary-color);
 }
 
+/* Hero Section */
 .hero {
   text-align: center;
-  padding: 4rem 1rem;
-  background: linear-gradient(135deg, var(--background-color) 0%, var(--white) 100%);
+  padding: 6rem 1rem;
+  background: linear-gradient(to bottom, var(--background-color), var(--surface-color));
+  border-bottom: 1px solid var(--border-color);
 }
 
 .hero-title {
   font-size: 3.5rem;
-  margin-bottom: 1rem;
-  color: var(--text-color);
+  margin-bottom: 1.5rem;
+  color: var(--secondary-color);
+  letter-spacing: -0.05em;
+  line-height: 1.1;
 }
 
 .hero-subtitle {
-  font-size: 1.5rem;
-  color: var(--secondary-color);
-  margin-bottom: 2rem;
-  max-width: 600px;
+  font-size: 1.25rem;
+  color: var(--text-secondary);
+  margin-bottom: 2.5rem;
+  max-width: 640px;
   margin-left: auto;
   margin-right: auto;
+  font-weight: 400;
 }
 
+/* Features Section */
 .features-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 2rem;
-  padding: 4rem 0;
+  padding: 5rem 0;
 }
 
 .feature-card {
-  background: var(--white);
-  padding: 2rem;
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-sm);
-  transition: transform 0.2s;
+  background: var(--surface-color);
+  padding: 2.5rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-color);
+  transition: all 0.3s ease;
 }
 
 .feature-card:hover {
-  transform: translateY(-5px);
-  box-shadow: var(--shadow-md);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--accent-color);
+}
+
+.feature-card h3 {
+  color: var(--secondary-color);
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.feature-card p {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+/* Icon placeholders for features */
+.feature-icon {
+  width: 24px;
+  height: 24px;
+  color: var(--primary-color);
+}
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+
+.modal-content {
+  background-color: var(--surface-color);
+  padding: 2rem;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  width: 90%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 1rem;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--text-secondary);
+}
+
+.detail-row {
+  display: flex;
+  margin-bottom: 0.75rem;
+  border-bottom: 1px solid var(--gray-100);
+  padding-bottom: 0.5rem;
+}
+
+.detail-label {
+  font-weight: 600;
+  width: 40%;
+  color: var(--text-secondary);
+}
+
+.detail-value {
+  width: 60%;
+  color: var(--text-primary);
 }

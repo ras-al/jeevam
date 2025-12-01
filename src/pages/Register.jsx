@@ -117,6 +117,30 @@ function Register() {
           </div>
 
           <div className="form-group">
+            <label className="form-label">District</label>
+            <select
+              className="form-control"
+              value={formData.district}
+              onChange={(e) => setFormData({ ...formData, district: e.target.value })}
+            >
+              <option>Kollam</option>
+              <option>Thiruvananthapuram</option>
+              <option>Pathanamthitta</option>
+              <option>Alappuzha</option>
+              <option>Kottayam</option>
+              <option>Idukki</option>
+              <option>Ernakulam</option>
+              <option>Thrissur</option>
+              <option>Palakkad</option>
+              <option>Malappuram</option>
+              <option>Kozhikode</option>
+              <option>Wayanad</option>
+              <option>Kannur</option>
+              <option>Kasaragod</option>
+            </select>
+          </div>
+
+          <div className="form-group">
             <label className="form-label">Last Donated Date (Leave empty if never)</label>
             <input
               className="form-control"
@@ -125,6 +149,33 @@ function Register() {
               onChange={(e) => setFormData({ ...formData, lastDonated: e.target.value })}
             />
           </div>
+
+          <hr style={{ margin: '2rem 0', border: 0, borderTop: '1px solid var(--border-color)' }} />
+          <h3 style={{ marginBottom: '1rem', color: 'var(--secondary-color)' }}>Medical Eligibility</h3>
+
+          <div className="form-group">
+            <label className="form-label">Do you have any major diseases?</label>
+            <select
+              className="form-control"
+              value={formData.diseases}
+              onChange={(e) => setFormData({ ...formData, diseases: e.target.value })}
+            >
+              <option>No</option>
+              <option>Yes</option>
+            </select>
+          </div>
+
+          {formData.diseases === 'Yes' && (
+            <div className="form-group">
+              <label className="form-label">Please specify details</label>
+              <textarea
+                className="form-control"
+                rows="3"
+                value={formData.diseaseDetails}
+                onChange={(e) => setFormData({ ...formData, diseaseDetails: e.target.value })}
+              />
+            </div>
+          )}
 
           <button type="submit" className="btn btn-primary" style={{ width: '100%' }}>Register as Donor</button>
         </form>
