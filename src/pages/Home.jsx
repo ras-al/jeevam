@@ -6,7 +6,7 @@ function Home() {
     <div>
       <section className="hero">
         <div className="container">
-          <h1 className="hero-title">Jeevam Blood Registry</h1>
+          <h1 className="hero-title">Jeevam Blood Donor Registry</h1>
           <p className="hero-subtitle">
             A centralized, secure, and rapid response platform for emergency blood donation at TKM College of Engineering.
           </p>

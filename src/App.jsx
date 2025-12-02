@@ -9,6 +9,7 @@ import './App.css';
 import logo from './assets/logo.png';
 import nssLogo from './assets/nss_logo.png';
 import tkmceLogo from './assets/tkmce_logo.png';
+import rudhirasenaLogo from './assets/rudhirasena_logo.png';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Link to="/" className="logo-container">
             <img src={tkmceLogo} alt="TKMCE Logo" className="logo-img" />
             <img src={nssLogo} alt="NSS Logo" className="logo-img" />
+            <img src={rudhirasenaLogo} alt="Rudhirasena Logo" className="logo-img" />
             <img src={logo} alt="Jeevam Logo" className="logo-img" />
             <span style={{ marginLeft: '0.5rem' }}>Jeevam</span>
           </Link>

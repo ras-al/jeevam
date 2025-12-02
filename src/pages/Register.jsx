@@ -11,7 +11,12 @@ function Register() {
   const [formData, setFormData] = useState({
     fullName: '', age: '', gender: 'Male', role: 'Student',
     department: '', bloodGroup: 'A+', district: 'Kollam',
-    lastDonated: '', diseases: 'No', diseaseDetails: '', phone: '', email: ''
+    lastDonated: '',
+    medication: 'No',
+    chronicDiseases: 'No',
+    majorSurgery: 'No',
+    vaccinated: 'No',
+    phone: '', email: ''
   });
 
   // Save Data
@@ -70,6 +75,19 @@ function Register() {
             />
           </div>
 
+          <div className="form-group">
+            <label className="form-label">Gender</label>
+            <select
+              className="form-control"
+              value={formData.gender}
+              onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
+            >
+              <option>Male</option>
+              <option>Female</option>
+              <option>Others</option>
+            </select>
+          </div>
+
           <div style={{ display: 'flex', gap: '1rem' }}>
             <div className="form-group" style={{ flex: 1 }}>
               <label className="form-label">Age</label>
@@ -101,7 +119,9 @@ function Register() {
               value={formData.role}
               onChange={(e) => setFormData({ ...formData, role: e.target.value })}
             >
-              <option>Student</option><option>Teacher</option>
+              <option>Student</option>
+              <option>Teacher</option>
+              <option>Others</option>
             </select>
           </div>
 
@@ -154,27 +174,55 @@ function Register() {
           <h3 style={{ marginBottom: '1rem', color: 'var(--secondary-color)' }}>Medical Eligibility</h3>
 
           <div className="form-group">
-            <label className="form-label">Do you have any major diseases?</label>
+            <label className="form-label">Are you currently under any medication?</label>
             <select
               className="form-control"
-              value={formData.diseases}
-              onChange={(e) => setFormData({ ...formData, diseases: e.target.value })}
+              value={formData.medication}
+              onChange={(e) => setFormData({ ...formData, medication: e.target.value })}
             >
               <option>No</option>
               <option>Yes</option>
             </select>
           </div>
 
-          {formData.diseases === 'Yes' && (
-            <div className="form-group">
-              <label className="form-label">Please specify details</label>
-              <textarea
-                className="form-control"
-                rows="3"
-                value={formData.diseaseDetails}
-                onChange={(e) => setFormData({ ...formData, diseaseDetails: e.target.value })}
-              />
-            </div>
+          {formData.medication === 'Yes' && (
+            <>
+              <div className="form-group">
+                <label className="form-label">Do you have any chronic diseases? (Diabetes, BP, Thyroid, etc.)</label>
+                <select
+                  className="form-control"
+                  value={formData.chronicDiseases}
+                  onChange={(e) => setFormData({ ...formData, chronicDiseases: e.target.value })}
+                >
+                  <option>No</option>
+                  <option>Yes</option>
+                </select>
+              </div>
+
+              <div className="form-group">
+                <label className="form-label">Have you undergone any major surgery in the last one year?</label>
+                <select
+                  className="form-control"
+                  value={formData.majorSurgery}
+                  onChange={(e) => setFormData({ ...formData, majorSurgery: e.target.value })}
+                >
+                  <option>No</option>
+                  <option>Yes</option>
+                </select>
+              </div>
+
+              <div className="form-group">
+                <label className="form-label">Are you currently vaccinated? (Within one year)</label>
+                <select
+                  className="form-control"
+                  value={formData.vaccinated}
+                  onChange={(e) => setFormData({ ...formData, vaccinated: e.target.value })}
+                >
+                  <option>No</option>
+                  <option>Yes</option>
+                </select>
+              </div>
+            </>
           )}
 
           <button type="submit" className="btn btn-primary" style={{ width: '100%' }}>Register as Donor</button>

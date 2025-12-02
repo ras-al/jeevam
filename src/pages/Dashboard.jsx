@@ -1,7 +1,7 @@
 // src/pages/Dashboard.jsx
 import { useEffect, useState } from 'react';
 import { db, auth } from '../firebase';
-import { collection, getDocs, deleteDoc, doc } from 'firebase/firestore';
+import { collection, getDocs, deleteDoc, doc, updateDoc } from 'firebase/firestore';
 import { onAuthStateChanged } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 
@@ -101,6 +101,24 @@ function Dashboard() {
       } catch (error) {
         alert("Error deleting donor: " + error.message);
       }
+    }
+  };
+
+  // 7. Update Donor
+  const handleUpdate = async () => {
+    if (!selectedDonor) return;
+    try {
+      const donorRef = doc(db, "donors", selectedDonor.id);
+      await updateDoc(donorRef, {
+        lastDonated: selectedDonor.lastDonated
+      });
+
+      // Update local state
+      setDonors(donors.map(d => d.id === selectedDonor.id ? { ...d, lastDonated: selectedDonor.lastDonated } : d));
+      alert("Donor updated successfully!");
+      setSelectedDonor(null);
+    } catch (error) {
+      alert("Error updating donor: " + error.message);
     }
   };
 
@@ -253,7 +271,13 @@ function Dashboard() {
             </div>
             <div className="detail-row">
               <span className="detail-label">Last Donated:</span>
-              <span className="detail-value">{selectedDonor.lastDonated || 'Never'}</span>
+              <input
+                type="date"
+                className="form-control"
+                style={{ padding: '0.25rem' }}
+                value={selectedDonor.lastDonated || ''}
+                onChange={(e) => setSelectedDonor({ ...selectedDonor, lastDonated: e.target.value })}
+              />
             </div>
 
             <hr style={{ margin: '1rem 0', border: 0, borderTop: '1px solid var(--gray-200)' }} />
@@ -270,8 +294,9 @@ function Dashboard() {
               </div>
             )}
 
-            <div style={{ marginTop: '2rem', textAlign: 'right' }}>
+            <div style={{ marginTop: '2rem', textAlign: 'right', display: 'flex', justifyContent: 'flex-end', gap: '1rem' }}>
               <button className="btn btn-secondary" onClick={() => setSelectedDonor(null)}>Close</button>
+              <button className="btn btn-primary" onClick={handleUpdate}>Update</button>
             </div>
           </div>
         </div>
