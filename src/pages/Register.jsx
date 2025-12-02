@@ -10,8 +10,11 @@ function Register() {
   // Form State
   const [formData, setFormData] = useState({
     fullName: '', age: '', gender: 'Male', role: 'Student',
-    department: '', bloodGroup: 'A+', district: 'Kollam',
+    institution: '', // New Field
+    department: '', bloodGroup: 'A+', otherBloodGroup: '', // New Field
+    district: 'Kollam',
     lastDonated: '',
+    isMedicallyEligible: 'Yes', // New Logic Trigger
     medication: 'No',
     chronicDiseases: 'No',
     majorSurgery: 'No',
@@ -23,9 +26,15 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Determine final blood group value
+    const finalBloodGroup = formData.bloodGroup === 'Others'
+      ? formData.otherBloodGroup
+      : formData.bloodGroup;
+
     try {
       await addDoc(collection(db, "donors"), {
         ...formData,
+        bloodGroup: finalBloodGroup, // Save the actual value
         createdAt: serverTimestamp(),
         verified: true // Auto-verified
       });
@@ -108,9 +117,24 @@ function Register() {
               >
                 <option>A+</option><option>A-</option><option>B+</option><option>B-</option>
                 <option>O+</option><option>O-</option><option>AB+</option><option>AB-</option>
+                <option>Others</option>
               </select>
             </div>
           </div>
+
+          {formData.bloodGroup === 'Others' && (
+            <div className="form-group">
+              <label className="form-label">Specify Blood Group</label>
+              <input
+                className="form-control"
+                required
+                type="text"
+                placeholder="Enter your blood group"
+                value={formData.otherBloodGroup}
+                onChange={(e) => setFormData({ ...formData, otherBloodGroup: e.target.value })}
+              />
+            </div>
+          )}
 
           <div className="form-group">
             <label className="form-label">Role</label>
@@ -123,6 +147,18 @@ function Register() {
               <option>Teacher</option>
               <option>Others</option>
             </select>
+          </div>
+
+          <div className="form-group">
+            <label className="form-label">Institution</label>
+            <input
+              className="form-control"
+              required
+              type="text"
+              placeholder="e.g. TKM College of Engineering"
+              value={formData.institution}
+              onChange={(e) => setFormData({ ...formData, institution: e.target.value })}
+            />
           </div>
 
           <div className="form-group">
@@ -174,19 +210,31 @@ function Register() {
           <h3 style={{ marginBottom: '1rem', color: 'var(--secondary-color)' }}>Medical Eligibility</h3>
 
           <div className="form-group">
-            <label className="form-label">Are you currently under any medication?</label>
+            <label className="form-label">Are you medically eligible to donate?</label>
             <select
               className="form-control"
-              value={formData.medication}
-              onChange={(e) => setFormData({ ...formData, medication: e.target.value })}
+              value={formData.isMedicallyEligible}
+              onChange={(e) => setFormData({ ...formData, isMedicallyEligible: e.target.value })}
             >
-              <option>No</option>
               <option>Yes</option>
+              <option>No</option>
             </select>
           </div>
 
-          {formData.medication === 'Yes' && (
+          {formData.isMedicallyEligible === 'No' && (
             <>
+              <div className="form-group">
+                <label className="form-label">Are you currently under any medication?</label>
+                <select
+                  className="form-control"
+                  value={formData.medication}
+                  onChange={(e) => setFormData({ ...formData, medication: e.target.value })}
+                >
+                  <option>No</option>
+                  <option>Yes</option>
+                </select>
+              </div>
+
               <div className="form-group">
                 <label className="form-label">Do you have any chronic diseases? (Diabetes, BP, Thyroid, etc.)</label>
                 <select
