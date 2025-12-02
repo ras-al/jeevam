@@ -1,3 +1,5 @@
+/* src/App.css */
+
 /* App specific styles */
 
 /* Navbar */
@@ -29,9 +31,10 @@
 }
 
 .logo-img {
-  height: 40px;
-  width: auto;
+  height: 35px;        /* Reduced size */
+  width: 35px;         /* Reduced size */
   object-fit: contain;
+  aspect-ratio: 1 / 1;
 }
 
 .nav-links {
