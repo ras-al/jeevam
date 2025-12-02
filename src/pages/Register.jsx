@@ -193,6 +193,7 @@ function Register() {
               <option>Wayanad</option>
               <option>Kannur</option>
               <option>Kasaragod</option>
+              <option>Outside Kerala</option>
             </select>
           </div>
 
@@ -210,7 +211,7 @@ function Register() {
           <h3 style={{ marginBottom: '1rem', color: 'var(--secondary-color)' }}>Medical Eligibility</h3>
 
           <div className="form-group">
-            <label className="form-label">Are you medically eligible to donate?</label>
+            <label className="form-label">Are you on a Medication?</label>
             <select
               className="form-control"
               value={formData.isMedicallyEligible}
