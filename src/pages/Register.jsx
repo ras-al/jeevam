@@ -1,20 +1,22 @@
 // src/pages/Register.jsx
 import { useState } from 'react';
-import { db } from '../firebase';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
-import { useNavigate } from 'react-router-dom';
+import { db, auth } from '../firebase';
+import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom'; // Fixed typo here
 
 function Register() {
   const navigate = useNavigate();
+  const [password, setPassword] = useState(''); // New State for Password
 
   // Form State
   const [formData, setFormData] = useState({
     fullName: '', age: '', gender: 'Male', role: 'Student',
-    institution: '', // New Field
-    department: '', bloodGroup: 'A+', otherBloodGroup: '', // New Field
+    institution: '',
+    department: '', bloodGroup: 'A+', otherBloodGroup: '',
     district: 'Kollam',
     lastDonated: '',
-    isMedicallyEligible: 'Yes', // New Logic Trigger
+    isMedicallyEligible: 'Yes',
     medication: 'No',
     chronicDiseases: 'No',
     majorSurgery: 'No',
@@ -26,31 +28,55 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Determine final blood group value
+    if (password.length < 6) {
+      alert("Password must be at least 6 characters long.");
+      return;
+    }
+
     const finalBloodGroup = formData.bloodGroup === 'Others'
       ? formData.otherBloodGroup
       : formData.bloodGroup;
 
     try {
-      await addDoc(collection(db, "donors"), {
+      // 1. Create Auth User
+      const userCredential = await createUserWithEmailAndPassword(auth, formData.email, password);
+      const user = userCredential.user;
+
+      // 2. Save Donor Data with matching UID
+      await setDoc(doc(db, "donors", user.uid), {
         ...formData,
-        bloodGroup: finalBloodGroup, // Save the actual value
+        bloodGroup: finalBloodGroup,
+        uid: user.uid, // Store UID for reference
         createdAt: serverTimestamp(),
-        verified: true // Auto-verified
+        verified: true
       });
-      alert("Registration Successful!");
-      navigate('/');
+
+      alert("Registration Successful! You are now logged in.");
+      navigate('/donor-dashboard'); // Redirect to their profile
     } catch (error) {
-      alert("Error saving data: " + error.message);
+      alert("Error registering: " + error.message);
     }
   };
 
   return (
-    <div className="container" style={{ maxWidth: '600px', marginTop: '2rem' }}>
+    <div className="container" style={{ maxWidth: '600px', marginTop: '2rem', paddingBottom: '2rem' }}>
       <div className="card">
         <h2 style={{ marginBottom: '1.5rem', textAlign: 'center', color: 'var(--primary-color)' }}>Donor Registration</h2>
 
         <form onSubmit={handleSubmit}>
+          {/* Password Field */}
+          <div className="form-group">
+            <label className="form-label">Create Password</label>
+            <input
+              className="form-control"
+              required
+              type="password"
+              placeholder="Min. 6 characters"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+
           <div className="form-group">
             <label className="form-label">Full Name</label>
             <input
@@ -237,7 +263,7 @@ function Register() {
               </div>
 
               <div className="form-group">
-                <label className="form-label">Do you have any chronic diseases? (Diabetes, BP, Thyroid, etc.)</label>
+                <label className="form-label">Do you have any chronic diseases?</label>
                 <select
                   className="form-control"
                   value={formData.chronicDiseases}

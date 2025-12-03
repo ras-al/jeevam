@@ -14,9 +14,6 @@ function Home() {
             <Link to="/register" className="btn btn-primary">
               Register as Donor
             </Link>
-            <Link to="/admin" className="btn btn-secondary">
-              Admin Portal
-            </Link>
           </div>
         </div>
       </section>
@@ -43,6 +40,30 @@ function Home() {
               Secure & Private
             </h3>
             <p>Your personal data is encrypted and accessible only to authorized personnel for strictly medical purposes.</p>
+          </div>
+        </div>
+      </section>
+
+      {/* NEW SECTION: Blood Donation Guidelines */}
+      <section className="container" style={{ paddingBottom: '4rem' }}>
+        <div className="card" style={{ borderLeft: '4px solid var(--primary-color)' }}>
+          <h2 style={{ marginBottom: '1.5rem', color: 'var(--secondary-color)', textAlign: 'center' }}>Blood Donation Guidelines</h2>
+          <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+            <ol style={{ 
+              paddingLeft: '1.5rem', 
+              color: 'var(--text-secondary)', 
+              lineHeight: '1.8',
+              fontSize: '1.05rem'
+            }}>
+              <li style={{ marginBottom: '0.5rem' }}>Donor must be aged between 18 and 50 years.</li>
+              <li style={{ marginBottom: '0.5rem' }}>Donors must have a minimum weight of 50kg.</li>
+              <li style={{ marginBottom: '0.5rem' }}>Donors should keep an interval of 3 months between successive donations.</li>
+              <li style={{ marginBottom: '0.5rem' }}>Those who are suffering from transmittable diseases, cardiac arrest, hypertension, kidney ailments, epilepsy or diabetes should not donate blood.</li>
+              <li style={{ marginBottom: '0.5rem' }}>Donor should not have been treated for malaria in the last 3 months and underwent immunization within the past 1 month.</li>
+              <li style={{ marginBottom: '0.5rem' }}>If the donor has consumed alcohol, then he/she must donate only after 12 hours of intake.</li>
+              <li style={{ marginBottom: '0.5rem' }}>Donor should not suffer from common cold, sore throat, cough for the past 5 days.</li>
+              <li>Avoid donation if the donor had taken a course of antibiotics for the last 5 days.</li>
+            </ol>
           </div>
         </div>
       </section>
