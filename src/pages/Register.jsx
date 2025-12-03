@@ -2,12 +2,12 @@
 import { useState } from 'react';
 import { db, auth } from '../firebase';
 import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
+import { useNavigate } from 'react-router-dom'; // Corrected import
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { useNavigate } from 'react-router-dom';
 
 function Register() {
   const navigate = useNavigate();
-  const [password, setPassword] = useState(''); // New State for Password
+  const [password, setPassword] = useState('');
 
   // Form State
   const [formData, setFormData] = useState({
@@ -46,17 +46,20 @@ function Register() {
       await setDoc(doc(db, "donors", user.uid), {
         ...formData,
         bloodGroup: finalBloodGroup,
-        uid: user.uid, // Store UID for reference
+        uid: user.uid,
         createdAt: serverTimestamp(),
         verified: true
       });
 
       alert("Registration Successful! You are now logged in.");
-      navigate('/donor-dashboard'); // Redirect to their profile
+      navigate('/donor-dashboard');
     } catch (error) {
       alert("Error registering: " + error.message);
     }
   };
+
+  // Get today's date for max attribute
+  const today = new Date().toISOString().split('T')[0];
 
   return (
     <div className="container" style={{ maxWidth: '600px', marginTop: '2rem', paddingBottom: '2rem' }}>
@@ -80,19 +83,7 @@ function Register() {
         <h2 style={{ marginBottom: '1.5rem', textAlign: 'center', color: 'var(--primary-color)' }}>Donor Registration</h2>
 
         <form onSubmit={handleSubmit}>
-          {/* Password Field */}
-          <div className="form-group">
-            <label className="form-label">Create Password</label>
-            <input
-              className="form-control"
-              required
-              type="password"
-              placeholder="Min. 6 characters"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-
+          
           <div className="form-group">
             <label className="form-label">Full Name</label>
             <input
@@ -112,6 +103,19 @@ function Register() {
               required
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+            />
+          </div>
+
+          {/* Password Field */}
+          <div className="form-group">
+            <label className="form-label">Create Password</label>
+            <input
+              className="form-control"
+              required
+              type="password"
+              placeholder="Min. 6 characters"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
 
@@ -240,10 +244,13 @@ function Register() {
           </div>
 
           <div className="form-group">
-            <label className="form-label">Last Donated Date (Leave empty if never)</label>
+            <label className="form-label">
+              Last Donated Date <small style={{ fontWeight: 'normal', color: 'var(--text-secondary)' }}>(DD-MM-YYYY)</small>
+            </label>
             <input
               className="form-control"
               type="date"
+              max={today}
               value={formData.lastDonated}
               onChange={(e) => setFormData({ ...formData, lastDonated: e.target.value })}
             />

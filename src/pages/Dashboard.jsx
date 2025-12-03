@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { db, auth } from '../firebase';
 import { collection, getDocs, deleteDoc, doc, updateDoc } from 'firebase/firestore';
-import { onAuthStateChanged } from 'firebase/auth';
+import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 
 function Dashboard() {
@@ -64,11 +64,7 @@ function Dashboard() {
     })
     .sort((a, b) => {
       if (sortBy === 'Newest') {
-        // Sort by createdAt if available, else fallback to simple index or name
-        // Assuming createdAt is a timestamp, but we might not have converted it yet.
-        // Let's use lastDonated for now as a proxy if createdAt isn't easy, or just name.
-        // Actually, let's sort by Name for A-Z and Z-A
-        return 0; // Default no sort for now if timestamp logic is complex without conversion
+        return 0; // Default sort
       }
       if (sortBy === 'Name A-Z') return a.fullName.localeCompare(b.fullName);
       if (sortBy === 'Name Z-A') return b.fullName.localeCompare(a.fullName);
@@ -122,12 +118,25 @@ function Dashboard() {
     }
   };
 
+  // 8. Logout Function
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      navigate('/admin');
+    } catch (error) {
+      alert("Error logging out: " + error.message);
+    }
+  };
+
   return (
     <div className="container" style={{ marginTop: '2rem' }}>
       <div className="card">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
           <h2 style={{ color: 'var(--primary-color)' }}>NSS Admin Dashboard</h2>
-          <button className="btn btn-primary" onClick={exportCSV}>Export CSV</button>
+          <div style={{ display: 'flex', gap: '1rem' }}>
+            <button className="btn btn-primary" onClick={exportCSV}>Export CSV</button>
+            <button className="btn btn-secondary" onClick={handleLogout}>Logout</button>
+          </div>
         </div>
 
         {/* Filters Toolbar */}
