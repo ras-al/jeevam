@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { db, auth } from '../firebase';
 import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { useNavigate } from 'react-router-dom'; // Fixed typo here
+import { useNavigate } from 'react-router-dom';
 
 function Register() {
   const navigate = useNavigate();
@@ -60,6 +60,22 @@ function Register() {
 
   return (
     <div className="container" style={{ maxWidth: '600px', marginTop: '2rem', paddingBottom: '2rem' }}>
+      
+      {/* Blood Donation Guidelines Section */}
+      <div className="card" style={{ marginBottom: '2rem', borderLeft: '4px solid var(--primary-color)' }}>
+        <h3 style={{ marginBottom: '1rem', color: 'var(--secondary-color)' }}>Blood Donation Guidelines</h3>
+        <ol style={{ paddingLeft: '1.25rem', color: 'var(--text-secondary)', lineHeight: '1.8' }}>
+          <li>Donor must be aged between 18 and 50 years.</li>
+          <li>Donors must have a minimum weight of 50kg.</li>
+          <li>Donors should keep an interval of 3 months between successive donations.</li>
+          <li>Those who are suffering from transmittable diseases, cardiac arrest, hypertension, kidney ailments, epilepsy or diabetes should not donate blood.</li>
+          <li>Donor should not have been treated for malaria in the last 3 months and underwent immunization within the past 1 month.</li>
+          <li>If the donor has consumed alcohol, then he/she must donate only after 12 hours of intake.</li>
+          <li>Donor should not suffer from common cold, sore throat, cough for the past 5 days.</li>
+          <li>Avoid donation if the donor had taken a course of antibiotics for the last 5 days.</li>
+        </ol>
+      </div>
+
       <div className="card">
         <h2 style={{ marginBottom: '1.5rem', textAlign: 'center', color: 'var(--primary-color)' }}>Donor Registration</h2>
 
